@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Landing</title>
+    <link rel="stylesheet" href="{{url_for('static', filename="css/styles.css")}}">
+  </head>
+  <body>
+    <div id="navbar">
+      <a href="#" id="home">CodingDojo Wall</a>
+    </div>
+    <h1 id="login_title">Login</h1>
+    <form action="/validate" method="post" id="login">
+      <div class="labels">
+        <label for="email">Email: <input type="text" name="email"></label>
+        <label for="pw">Password: <input type="text" name="pw"></label>
+      </div>
+      <div class="buttons">
+        <input type="submit" name="submit" value="Login">
+      </div>
+    </form>
+    <h1 id="register_title">Register</h1>
+    <form action="/validate" method="post" id="register">
+      <div class="labels">
+        <label for="first_name">First Name: <input type="text" name="first_name"></label>
+        <label for="last_name">Last Name: <input type="text" name="last_name"></label>
+        <label for="email">Email: <input type="text" name="email"></label>
+        <label for="pw">Password: <input type="text" name="pw"></label>
+        <label for="pw_confirm">Confirm Password: <input type="text" name="pw_confirm"></label>
+      </div>
+      <div class="buttons">
+        <input type="submit" name="submit" value="Register">
+      </div>
+    </form>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p class='message'>{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </body>
+</html>

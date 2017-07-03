@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Wall</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  </head>
+  <body>
+    <div id="navbar">
+      <a href="/" id="home">CodingDojo Wall</a>
+      <p id='welcome'>Welcome {{current_user['first_name']}}</p>
+      <a href="/" id="logout">Log Off</a>
+    </div>
+    <h1 id="message_title">Post a Message</h1>
+    <div id="container">
+      <form action="/post_message" method="post" id="post_message">
+        <textarea name="message" rows="8" cols="80"></textarea>
+        <div id="button_container">
+          <input type="submit" name="post_message_button" value="Post a Message" id="msg_btn">
+        </div>
+      </form>
+    </div>
+    {% for message in messages %}
+      {% for user in users %}
+        {% if message['user_id'] == user['id'] %}
+          <div class="msg_container">
+            <h2 class="msg_creator">{{user['first_name'] +" "+ user['last_name']+" - "+message['created_at']|string}}</h2>
+            <p class="msg">{{message['message']}}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% for comment in comments %}
+        {% if comment['message_id'] == message['id'] %}
+          {% for user in users %}
+            {% if comment['user_id'] == user['id'] %}
+              <div class="comment_container">
+                <h2 class="comment_creator">{{user['first_name']+" "+user['last_name']+" - "+comment['created_at']|string}}</h2>
+                <p class="comment">{{comment['comment']}}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      <div class="post_comment_container">
+        <form action="/post_comment" method="post" id="post_comment">
+          <textarea name="comment" rows="8" cols="80"></textarea>
+          <div id="button_container">
+            <input type="submit" name="post_comment_button" value="Post a Comment" id="comment_btn">
+            <input type="hidden" name="msg_id" value="{{message['id']}}">
+          </div>
+        </form>
+      </div>
+    {% endfor %}
+  </body>
+</html>
